@@ -9,10 +9,10 @@ public class Lampada {
     double preco;
     int garantia;
     boolean ligadoOuDesligado = true;
-    int intesidadeDaLuz;
+    int intensidade;
 
     public Lampada(String marca, double voltagem, String tipo, String modelo,
-                    String cor, double preco, int garantia, boolean ligadoOuDesligado, int intesidadeDaLuz) {
+                    String cor, double preco, int garantia, boolean ligadoOuDesligado, int intensidade) {
         this.marca = marca;
         this.voltagem = voltagem;
         this.tipo = tipo;
@@ -21,7 +21,7 @@ public class Lampada {
         this.preco = preco;
         this.garantia = garantia;
         this.ligadoOuDesligado = ligadoOuDesligado;
-        this.intesidadeDaLuz = intesidadeDaLuz;
+        this.intensidade = intensidade;
     }
 
     public String getMarca() {
@@ -88,12 +88,12 @@ public class Lampada {
         this.ligadoOuDesligado = ligadoOuDesligado;
     }
 
-    public int getIntesidadeDaLuz() {
-        return intesidadeDaLuz;
+    public int getIntensidade() {
+        return intensidade;
     }
 
-    public void setIntesidadeDaLuz(int intesidadeDaLuz) {
-        this.intesidadeDaLuz = intesidadeDaLuz;
+    public void setIntensidade(int intensidade) {
+        this.intensidade = intensidade;
     }
 
     public void ligarLampada (){
@@ -101,7 +101,8 @@ public class Lampada {
             System.out.println("A lâmpada já está ligada.");
         }else{
             this.ligadoOuDesligado = true;
-            System.out.println("Lâmpada ligada");
+            this.intensidade = 100;
+            System.out.println("Lâmpada ligada. Intensidade: " + this.intensidade + "%.");
         }
     }
 
@@ -110,7 +111,40 @@ public class Lampada {
             System.out.println("A lâmpada já está apagada.");
         }else{
             this.ligadoOuDesligado = false;
-            System.out.println("Lâmpada apagada");
+            this.intensidade = 0;
+            System.out.println("Lâmpada apagada.");
+        }
+
+    }
+
+    public void aumentarIntensidade(){
+        if(!this.ligadoOuDesligado){
+            System.out.println("A lâmpada está desligada.");
+        }else{
+            if (this.intensidade < 100){
+                this.intensidade += 5;
+                if (this.intensidade >= 100){
+                    this.intensidade = 100;
+                }
+                System.out.println("Intensidade da lâmpada aumentada " +
+                        "para: " + this.intensidade + "%.");
+            }else{
+                System.out.println("A intensidade já está no máximo.");
+            }
+        }
+    }
+
+    public void diminuirIntensidade(){
+        if(!this.ligadoOuDesligado){
+            System.out.println("A lâmpada está desligada.");
+        }else{
+            if (this.intensidade > 5){
+                this.intensidade -= 5;
+                System.out.println("Intensidade da lâmpada reduzida " +
+                        "para: " + this.intensidade + "%.");
+            }else{
+                System.out.println("A intensidade já está no mínimo.");
+            }
         }
     }
 
