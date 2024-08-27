@@ -9,6 +9,6 @@ public class Main {
 
         lampada.ligarLampada();
         lampada.diminuirIntensidade();
-        lampada.desligarLampada();
+        lampada.temporizadorDesligarLampada(10,"segundos");
     }
 }

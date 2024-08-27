@@ -148,5 +148,37 @@ public class Lampada {
         }
     }
 
+    public void temporizadorDesligarLampada(int tempo, String unidade) {
+        if (!this.ligadoOuDesligado) {
+            System.out.println("A lâmpada está desligada. Não é possível " +
+                    "iniciar o temporizador");
+            return;
+        }
 
+        int tempoEmMilisegundos;
+        if(unidade.equalsIgnoreCase("segundos")){
+            tempoEmMilisegundos = tempo * 1000;
+        } else if (unidade.equalsIgnoreCase("minutos")){
+            tempoEmMilisegundos = tempo * 60000;
+        } else {
+            System.out.println("Unidade de tempo inválida. Use 'segundos' ou" +
+                    " 'minutos'.");
+            return;
+        }
+
+        if (tempoEmMilisegundos > 0){
+            Thread thread = new Thread(() ->{
+                try{
+                    Thread.sleep(tempoEmMilisegundos);
+                    desligarLampada ();
+                } catch (InterruptedException e) {
+                    System.out.println("A operação foi interrompida. Por favor, tente novamente.");
+                    Thread.currentThread().interrupt();
+                }
+            });
+            thread.start();
+        } else {
+            System.out.println("O tempo deve ser maior que zero.");
+        }
+    }
 }
