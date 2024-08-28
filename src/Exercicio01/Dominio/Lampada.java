@@ -95,6 +95,11 @@ public class Lampada {
     public void setIntensidade(int intensidade) {
         this.intensidade = intensidade;
     }
+    public void imprimirInfoLampada(){
+        System.out.println("Marca: " + getMarca() + ", Voltagem: " + getVoltagem() +
+                ", Tipo: " + getTipo() + ", Modelo: " + getModelo() + ", Cor:" +
+                getCor() + ", Preço: " + getPreco() + "R$" + ", Garantia de: " + getGarantia() + " anos.");
+    }
 
     public void ligarLampada (){
         if (this.ligadoOuDesligado){
