@@ -8,18 +8,18 @@ public class ContaManager {
     private final Scanner scanner;
     private final ArrayList<Conta> contas;
 
-    private ContaManager(Scanner scanner, ArrayList<Conta> contas) {
+     public ContaManager(Scanner scanner, ArrayList<Conta> contas) {
         this.scanner = scanner;
         this.contas =contas;
-    }
+     }
 
-    public void AdicionarConta(){
+    public void adicionarConta(){
         System.out.println("Digite o nome do Titular da conta: ");
         String nomeTitular = scanner.nextLine();
 
         System.out.println("Qual o saldo deseja depositar para iniciar a " +
                 "conta? ");
-        double saldoInicial = scanner.nextInt();
+        double saldoInicial = scanner.nextDouble();
         scanner.nextLine();
 
         if (saldoInicial > 0){
@@ -35,7 +35,7 @@ public class ContaManager {
         }
     }
 
-    public void depositarSaldo(double valor){
+    public void depositarSaldo(){
         System.out.println("Digite o nome do titular da conta: ");
         String nomeTitular = scanner.nextLine();
 
@@ -54,7 +54,7 @@ public class ContaManager {
         }
     }
 
-    public void sacarSaldo(double valor){
+    public void sacarSaldo(){
         System.out.println("Digite o nome do titular da conta: ");
         String nomeTitular = scanner.nextLine();
 
@@ -72,6 +72,56 @@ public class ContaManager {
                     "novamente.");
         }
     }
+
+    public void exibirExtrato(String nomeTitular){
+        Conta conta = encontrarContaPorTitular(nomeTitular);
+        if (conta != null){
+            System.out.println("Extrato da conta: " + conta.getNumeroDaConta() + " Agência: "
+                    + conta.getAgencia() +":");
+            for (String transacao : conta.getTransacoes()) {
+                System.out.println(transacao);
+            }
+            Contador.imprimirContadores();
+        }
+    }
+
+    public void acessarConta(){
+       System.out.println("Digite o nome do titular da conta: ");
+       String nomeTitular = scanner.nextLine();
+
+       Conta conta = encontrarContaPorTitular(nomeTitular);
+       if(conta != null){
+            while (true){
+                System.out.println("Escolha uma opção");
+                System.out.println("1 - Depositar.");
+                System.out.println("2 - Sacar.");
+                System.out.println("3 - Extrato Bancário.");
+                System.out.println("4 - Voltar ao menu anterior.");
+
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (opcao){
+                    case 1:
+                        depositarSaldo();
+                        break;
+                    case 2:
+                        sacarSaldo();
+                        break;
+                    case 3:
+                        exibirExtrato(nomeTitular);
+                        break;
+                    case 4:
+                        return;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                }
+            }
+       }else{
+           System.out.println("Conta não encontrada.");
+       }
+
+   }
 
     private Conta encontrarContaPorTitular(String nomeTitular){
         for(Conta conta : contas){

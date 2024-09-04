@@ -1,5 +1,8 @@
 package Exercicio02.Dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Conta {
     private static final int AGENCIA_FIXA = 5562;
     private static int contadorNumeroConta = 1;
@@ -8,6 +11,7 @@ public class Conta {
     private int agencia;
     private int numeroDaConta;
     private double saldo;
+    private List<String> transacoes;
     private static int contadorDepositos = 0;
     private static int contadorSaques = 0;
     private static int contadorOperacoes = 0;
@@ -17,6 +21,7 @@ public class Conta {
         this.saldo = saldo;
         this.agencia = AGENCIA_FIXA;
         this.numeroDaConta = agencia * 1000 + contadorNumeroConta++;
+        this.transacoes = new ArrayList<>();
     }
 
     public static int getContadorDepositos() {
@@ -35,6 +40,10 @@ public class Conta {
         return titular;
     }
 
+    public List<String> getTransacoes() {
+        return transacoes;
+    }
+
     public void setTitular(String titular) {
         this.titular = titular;
     }
@@ -51,8 +60,6 @@ public class Conta {
         return saldo;
     }
 
-
-
     public void depositarSaldo(double valor) {
         if (valor < 1.0) {
             System.out.println("O valor deve ser maior que 1.00");
@@ -60,7 +67,9 @@ public class Conta {
             saldo += valor;
             contadorDepositos++;
             contadorOperacoes++;
-            System.out.println("Depósito de " + valor + " realizado com sucesso");
+            registrarTransacao("Depósito de: " + valor);
+            System.out.println("Depósito de: " + valor + " realizado com " +
+                    "sucesso");
         }
     }
 
@@ -71,8 +80,13 @@ public class Conta {
             saldo -= valor;
             contadorSaques++;
             contadorOperacoes++;
+            registrarTransacao("Saque de: " + valor);
             System.out.println("Saque de " + valor + " realizado com sucesso");
         }
 
+    }
+
+    private void registrarTransacao(String transacao){
+        transacoes.add(transacao);
     }
 }
