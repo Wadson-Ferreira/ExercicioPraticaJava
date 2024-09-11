@@ -1,7 +1,5 @@
 package Exercicio03.Dominio;
 
-import java.util.Scanner;
-
 public class Jogador {
     private String nome;
     private char simbolo;
@@ -36,4 +34,5 @@ public class Jogador {
     public void setTipo(TipoJogador tipo) {
         this.tipo = tipo;
     }
+
 }
