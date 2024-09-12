@@ -1,5 +1,6 @@
 package Exercicio03.Dominio;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class JogadorManager {
@@ -11,7 +12,6 @@ public class JogadorManager {
         this.scanner = scanner;
     }
 
-    // Cria um jogador humano
     private JogadorHumano criarJogadorHumano(String nomeJogador) {
         System.out.println("Digite o nick do " + nomeJogador + ": ");
         String nome = scanner.nextLine();
@@ -23,20 +23,18 @@ public class JogadorManager {
             System.out.println("Símbolo inválido, escolha 'X' ou 'O'.");
             simbolo = scanner.next().toUpperCase().charAt(0);
         }
-        scanner.nextLine(); // Limpa o buffer
+        scanner.nextLine();
 
         return new JogadorHumano(nome, simbolo, TipoJogador.HUMANO, scanner);
     }
 
-    // Cria um jogador IA
     private JogadorIA criarJogadorIA() {
         char simboloIA = (ultimoSimboloIA == 'X') ? 'O' : 'X';
-        ultimoSimboloIA = simboloIA; // Alterna o símbolo para evitar repetição
+        ultimoSimboloIA = simboloIA;
 
-        return new JogadorIA("IA", simboloIA, TipoJogador.IA, null);
+        return new JogadorIA("IA", simboloIA, TipoJogador.IA, new Random());
     }
 
-    // Cria os dois jogadores dependendo do tipo de jogo
     public JogadorInterface[] criarJogadores() {
         System.out.println("Escolha o tipo de jogo: ");
         System.out.println("1 - Jogador vs Jogador");
@@ -71,7 +69,6 @@ public class JogadorManager {
                 throw new IllegalArgumentException("Opção inválida");
         }
 
-        // Retorna os dois jogadores criados
         return new JogadorInterface[]{Jogador1, Jogador2};
     }
 }

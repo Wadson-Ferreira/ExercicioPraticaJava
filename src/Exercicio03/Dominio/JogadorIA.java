@@ -1,21 +1,28 @@
 package Exercicio03.Dominio;
 
-public class JogadorIA implements JogadorInterface {
-    private String nome;
-    private char simbolo;
-    private TipoJogador tipo;
-    private Tabuleiro tabuleiro;
+import java.util.Random;
 
-    public JogadorIA(String nome, char simbolo, TipoJogador tipo, Tabuleiro tabuleiro) {
-        this.nome = nome;
-        this.simbolo = simbolo;
-        this.tipo = tipo;
-        this.tabuleiro = tabuleiro;
+public class JogadorIA extends Jogador implements JogadorInterface {
+
+    private Random random;
+
+    public JogadorIA(String nome, char simbolo, TipoJogador tipo, Random random) {
+        super(nome, simbolo, tipo);
+        this.random = random;
     }
-
 
     @Override
     public void fazerJogada(Tabuleiro tabuleiro) {
+        boolean jogadaFeita = false;
+
+        while (!jogadaFeita) {
+            int linha = random.nextInt(3);
+            int coluna = random.nextInt(3);
+
+            if(tabuleiro.atualizarTabuleiro(linha, coluna, getSimbolo())){
+                jogadaFeita = true;
+            }
+        }
 
     }
 }
