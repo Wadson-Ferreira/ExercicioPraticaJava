@@ -12,25 +12,31 @@ public class JogadorManager {
         this.scanner = scanner;
     }
 
-    private JogadorHumano criarJogadorHumano(String nomeJogador) {
+    private JogadorHumano criarJogadorHumano(String nomeJogador,
+                                             char simboloAnterior) {
         System.out.println("Digite o nick do " + nomeJogador + ": ");
         String nome = scanner.nextLine();
 
-        System.out.println("Qual símbolo deseja jogar? 'X' ou 'O'?");
-        char simbolo = scanner.next().toUpperCase().charAt(0);
-
-        while (simbolo != 'X' && simbolo != 'O') {
-            System.out.println("Símbolo inválido, escolha 'X' ou 'O'.");
+        char simbolo;
+        do{
+            System.out.println("Qual símbolo deseja jogar? 'X' ou 'O'?");
             simbolo = scanner.next().toUpperCase().charAt(0);
-        }
+
+            if(simbolo != 'X' && simbolo != 'O'){
+                System.out.println("Símbolo inválido, escolha 'X' ou 'O'.");
+            }else if(simbolo==simboloAnterior){
+                System.out.println("Símbolo já escolhido, escolha o outro " +
+                        "símbolo.");
+            }
+        } while (simbolo != 'X' && simbolo != 'O' || simbolo == simboloAnterior);
+
         scanner.nextLine();
 
         return new JogadorHumano(nome, simbolo, TipoJogador.HUMANO, scanner);
     }
 
-    private JogadorIA criarJogadorIA() {
-        char simboloIA = (ultimoSimboloIA == 'X') ? 'O' : 'X';
-        ultimoSimboloIA = simboloIA;
+    private JogadorIA criarJogadorIA(char simboloJogadorHumano) {
+        char simboloIA = (simboloJogadorHumano == 'X') ? 'O' : 'X';
 
         return new JogadorIA("IA", simboloIA, TipoJogador.IA, new Random());
     }
@@ -49,20 +55,20 @@ public class JogadorManager {
         switch (opcao) {
             case 1:
                 // Jogador vs Jogador
-                Jogador1 = criarJogadorHumano("Jogador 1");
-                Jogador2 = criarJogadorHumano("Jogador 2");
+                Jogador1 = criarJogadorHumano("Jogador 1",' ');
+                Jogador2 = criarJogadorHumano("Jogador 2", Jogador1.getSimbolo());
                 break;
 
             case 2:
                 // Jogador vs IA
-                Jogador1 = criarJogadorHumano("Jogador 1");
-                Jogador2 = criarJogadorIA();
+                Jogador1 = criarJogadorHumano("Jogador 1",' ');
+                Jogador2 = criarJogadorIA(Jogador1.getSimbolo());
                 break;
 
             case 3:
                 // IA vs IA
-                Jogador1 = criarJogadorIA();
-                Jogador2 = criarJogadorIA();
+                Jogador1 = criarJogadorIA('X');
+                Jogador2 = criarJogadorIA('O');
                 break;
 
             default:
@@ -71,4 +77,6 @@ public class JogadorManager {
 
         return new JogadorInterface[]{Jogador1, Jogador2};
     }
+
+
 }

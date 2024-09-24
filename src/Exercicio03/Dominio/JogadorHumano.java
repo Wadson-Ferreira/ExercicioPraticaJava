@@ -26,4 +26,5 @@ public class JogadorHumano extends Jogador implements JogadorInterface {
             scanner.nextLine();
         } while (!tabuleiro.atualizarTabuleiro(linha,coluna, getSimbolo()));
     }
+
 }
