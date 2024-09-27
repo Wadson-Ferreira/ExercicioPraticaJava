@@ -43,7 +43,7 @@ public class EstoqueManager {
 
             System.out.println("Qual o preço unitário do produto?" );
             double preco = scanner.nextDouble();
-            scanner.close();
+            scanner.nextLine();
 
             Produto novoProduto = new Produto(nome, quantidade, preco);
             produtos.add(novoProduto);
@@ -55,43 +55,76 @@ public class EstoqueManager {
     }
 
     public void removerProduto(){
-        System.out.println("Qual produto deseja remover? ");
-        String nome = scanner.nextLine();
-        boolean produtoEcontrado = false;
-        for(Produto produto:produtos){
-            if(produto.getNome().equalsIgnoreCase(nome)) {
-                System.out.println("Produto encontrado. O produto possui "
-                        + produto.getQuantidade() + "unidades em estoque. " +
-                        "Quantas unidades deseja remover?");
-                int quantidade = scanner.nextInt();
-                scanner.nextLine();
+        if (produtos.isEmpty()){
+            System.out.println("Atualmente o estoque está vazio.");
+        }else {
+            System.out.println("Qual produto deseja remover? ");
+            String nome = scanner.nextLine();
+            boolean produtoEcontrado = false;
 
-                if (quantidade == produto.getQuantidade()) {
-                    System.out.println("Você está removendo todas as " +
-                            "unidades do produto, deseja prosseguir e " +
-                            "remover o produto do estoque? (S/N)");
-                    String resposta = scanner.nextLine();
-                    if (resposta.equalsIgnoreCase("S")) {
-                        produtos.remove(produto);
-                        System.out.println("Produto removido com sucesso!");
+            for (Produto produto : produtos) {
+                if (produto.getNome().equalsIgnoreCase(nome)) {
+                    System.out.println("Produto encontrado. O produto possui "
+                            + produto.getQuantidade() + "unidades em estoque. " +
+                            "Quantas unidades deseja remover?");
+                    int quantidade = scanner.nextInt();
+
+                    scanner.nextLine();
+
+                    if (quantidade == produto.getQuantidade()) {
+                        System.out.println("Você está removendo todas as " +
+                                "unidades do produto, deseja prosseguir e " +
+                                "remover o produto do estoque? (S/N)");
+                        String resposta = scanner.nextLine();
+                        if (resposta.equalsIgnoreCase("S")) {
+                            produtos.remove(produto);
+                            System.out.println("Produto removido com sucesso!");
+                        }
+                        return;
+                    } else if (quantidade > produto.getQuantidade()) {
+                        System.out.println("ERRO! A quantidade solicitada é " +
+                                "maior que o estoque atual.");
+                    } else {
+                        produto.setQuantidade(produto.getQuantidade() - quantidade);
+                        System.out.println("Removido " + quantidade + " unidades " +
+                                "do estoque. O produto " + nome + " agora possui: " +
+                                produto.getQuantidade() + " unidades.");
                     }
-                    return;
-                } else if (quantidade > produto.getQuantidade()) {
-                    System.out.println("ERRO! A quantidade solicitada é maior" +
-                            " que o estoque atual.");
-                } else {
-                    produto.setQuantidade(produto.getQuantidade() - quantidade);
-                    System.out.println("Removido " + quantidade + " unidades " +
-                            "do estoque. O produto " + nome +" agora possui: " +
-                            produto.getQuantidade() + " unidades.");
+                    produtoEcontrado = true;
+                    break;
                 }
-                produtoEcontrado = true;
-                break;
+            }
+            if (!produtoEcontrado) {
+                System.out.println("ERRO! Produto não encontrado no estoque.");
             }
         }
-        if(!produtoEcontrado){
-            System.out.println("ERRO! Produto não encontrado no estoque.");
+    }
+
+    public void mostrarEstoque(){
+        if (produtos.isEmpty()) {
+            System.out.println("Atualmente o estoque está vazio.");
+        }else {
+            for (Produto produto : produtos) {
+                System.out.println("| " + produto.getNome() + " | " + produto.getQuantidade()
+                        + " | " + produto.getPreco() + " |");
+                System.out.println
+                        ("-------------------------------------------------");
+            }
+            System.out.println("Atualmente esse é todo o estoque!");
         }
+    }
+
+    public void calcularValorTotalEstoque(){
+        if(produtos.isEmpty()){
+            System.out.println("Estoque vazio, não há o que calcular ainda.");
+        } else {
+            double valorTotal = 0;
+            for (Produto produto : produtos) {
+                valorTotal += produto.getPreco() * produto.getQuantidade();
+            }
+            System.out.println("O valor total do estoque atualmente é dê: " + valorTotal);
+        }
+
     }
 }
 
