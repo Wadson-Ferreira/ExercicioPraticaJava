@@ -29,7 +29,7 @@ public class EstoqueManager {
                 produto.setQuantidade(produto.getQuantidade() + quantidade);
                 System.out.println("Quantidade atualizada com sucesso. O " +
                         "novo " + "estoque de " + produto.getNome() + " é de:" +
-                        " " + produto.getQuantidade() + "unidades.");
+                        " " + produto.getQuantidade() + " unidades.");
 
                 produtoEcontrado = true;
                 break;
@@ -48,9 +48,9 @@ public class EstoqueManager {
             Produto novoProduto = new Produto(nome, quantidade, preco);
             produtos.add(novoProduto);
 
-            System.out.println("Adicionado" + nome + "ao estoque com a " +
-                    "quantidade de: " + quantidade + "com o preço unitário " +
-                    "de: " + preco + "R$ com sucesso!");
+            System.out.println("Adicionado " + nome + " ao estoque com a " +
+                    "quantidade de: " + quantidade + " unidades, com o preço " +
+                    "unitário de: " + preco + "R$ com sucesso!");
         }
     }
 
@@ -106,11 +106,31 @@ public class EstoqueManager {
         }else {
             for (Produto produto : produtos) {
                 System.out.println("| " + produto.getNome() + " | " + produto.getQuantidade()
-                        + " | " + produto.getPreco() + " |");
+                        + " | " + produto.getPreco() + "R$ |");
                 System.out.println
                         ("-------------------------------------------------");
             }
             System.out.println("Atualmente esse é todo o estoque!");
+        }
+    }
+
+    public void buscarProduto(){
+        System.out.println("Qual produto está buscando? ");
+        String nome = scanner.nextLine();
+
+        boolean produtoEcontrado = false;
+
+        for (Produto produto : produtos) {
+            if (produto.getNome().equalsIgnoreCase(nome)) {
+                System.out.println("O produto " + produto.getNome() + " possui " + produto.getQuantidade()
+                        + " unidades, cada uma custando: " + produto.getPreco() + "R$" );
+                produtoEcontrado = true;
+                break;
+            }
+        }
+
+        if (!produtoEcontrado) {
+            System.out.println("Produto não encontrado no estoque.");
         }
     }
 
